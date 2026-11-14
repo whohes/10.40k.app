@@ -27,7 +27,7 @@ python3 -m http.server 8000
 
 ## Публикация (GitHub Pages)
 
-**Settings → Pages → Deploy from a branch**, ветка `main`, папка `/ (root)`. Приложение будет доступно по адресу `https://<логин>.github.io/10k.app/`.
+**Settings → Pages → Deploy from a branch**, ветка `main`, папка `/ (root)`. Приложение будет доступно по адресу `https://<логин>.github.io/10.40k.app/`.
 
 ## Обновление данных
 
