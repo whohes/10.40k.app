@@ -1,0 +1,65 @@
+528ea348|<ul> <li>1 Rubric Marine может получить 1 icon of flame.</li> </ul>
+46f5f151|<ul> <li>Любое число Rubric Marines может заменить inferno boltgun на 1 warpflamer.</li> </ul>
+a41363aa|<ul> <li>У 1 Rubric Marine inferno boltgun можно заменить на 1 soulreaper cannon.</li> </ul>
+4f873bfe|<ul> <li>Inferno bolt pistol у Aspiring Sorcerer можно заменить на 1 warpflame pistol.</li> </ul>
+cdbf7aeb|<p>Каждый раз, когда модель этого отряда совершает стрелковую атаку, перебрасывай 1 на ранение. Если цель в пределах маркера объекта, который ты не контролируешь, можно перебросить бросок на ранение полностью.</p>
+252d1a1d|<p>Стрелковое оружие моделей отряда носителя (кроме <strong>CHARACTERS</strong>) имеет <strong>[IGNORES COVER]</strong>.</p>
+e1c17f13|<ul> <li><strong>1 Aviarch</strong></li> <li><strong>2-5 Enlightened</strong></li> </ul> <p><strong>Каждая модель вооружена:</strong> divining spear.</p>
+d71461ab|<ul> <li>Любое число моделей может заменить divining spear на 1 autopistol и 1 chainsword.</li> </ul>
+08fc2250|<p>Каждый раз, когда этот отряд заканчивает движение атаки (чарджа), выбери один вражеский отряд в его зоне ближнего боя и брось по D6 за каждую модель этого отряда в зоне ближнего боя того отряда: за каждый 4+ он получает 1 смертельную рану.</p>
+bf81bbea|<ul> <li><strong>1 Aviarch</strong></li> <li><strong>2-5 Enlightened</strong></li> </ul> <p><strong>Каждая модель вооружена:</strong> fatecaster greatbow; close combat weapon.</p>
+458a70cc|<p>Один раз за ход, когда вражеский отряд заканчивает обычное движение, рывок или отступление в пределах 9" от этого отряда, если этот отряд не в зоне ближнего боя вражеских отрядов, он может совершить обычное движение до D6".</p>
+7a32c2e6|<ul> <li><strong>2 Chaos Spawn</strong></li> </ul> <p><strong>Каждая модель вооружена:</strong> hideous mutations.</p>
+d6e8227e|<p>В начале командной фазы каждого игрока одна модель этого отряда восстанавливает до 3 потерянных ран.</p>
+ca3be42d|<ul> <li><strong>1 Pyrocaster</strong></li> <li><strong>2-5 Flamers</strong></li> </ul> <p><strong>Каждая модель вооружена:</strong> flickering flames; Flamer mouths.</p>
+f2b1905c|<p>Этот отряд может стрелять в ходу, в котором отступил.</p>
+e353b42a|<ul> <li><strong>1 Scarab Occult Sorcerer</strong></li> <li><strong>4-9 Scarab Occult Terminators</strong></li> </ul> <p><strong>Scarab Occult Sorcerer вооружён:</strong> inferno combi-bolter; Malefic Curse; force weapon. <strong>Каждый Scarab Occult Terminator вооружён:</strong> inferno combi-bolter; Prosperine khopesh.</p>
+d6c5b8fc|<ul> <li>На каждые 5 моделей в отряде у 1 Scarab Occult Terminator inferno combi-bolter можно заменить на одно из: ◦ 1 heavy warpflamer ◦ 1 soulreaper cannon</li> </ul>
+8be72ae8|<ul> <li>Inferno combi-bolter у Scarab Occult Sorcerer можно заменить на 1 Prosperine khopesh.</li> </ul>
+303a6d2b|<ul> <li>На каждые 5 моделей в отряде 1 Scarab Occult Terminator может получить 1 hellfyre missile rack.</li> </ul>
+2eac7540|<p>Пока в этом отряде есть хотя бы одна модель <strong>PSYKER</strong>, каждый раз, когда этот отряд атакуют, вычти 1 из броска на ранение.</p>
+438b0739|<ul> <li><strong>3-6 Screamers</strong></li> </ul> <p><strong>Каждая модель вооружена:</strong> lamprey bite.</p>
+76577e40|<p>В твоей фазе движения, после того как этот отряд закончил обычное движение, можешь выбрать один вражеский отряд, над которым он прошёл, и бросить по D6 за каждую модель этого отряда: за каждый 4+ тот отряд получает 1 смертельную рану.</p>
+1cd74960|<ul> <li><strong>1 Twistbray</strong></li> <li><strong>9-19 Tzaangors</strong></li> </ul> <p><strong>Каждая модель вооружена:</strong> Tzaangor blades.</p>
+3440c363|<ul> <li>1 Tzaangor без herd banner может получить 1 brayhorn.</li> </ul>
+8fd9ffc1|<ul> <li>1 Tzaangor без brayhorn может получить 1 herd banner.</li> </ul>
+e64b491b|<ul> <li>Любое число моделей может заменить Tzaangor blades на 1 autopistol и 1 chainsword.</li> </ul>
+ea4d2f8e|<p>В конце хода противника, если этот отряд дальше чем в 6" по горизонтали от всех вражеских отрядов, можешь убрать его с поля и поместить в стратегический резерв.</p>
+ceccc642|<p>Можно перебрасывать броски рывка и атаки (чарджа) отряда носителя.</p>
+b54fd885|<p>Пока отряд носителя в пределах одного или нескольких маркеров объектов под твоим контролем, улучши Лидерство моделей отряда носителя на 1.</p>
+763305f6|<ul> <li><strong>1 Heldrake</strong></li> </ul> <p><strong>Модель вооружена:</strong> Hades autocannon; Heldrake claws.</p>
+9e484f6c|<ul> <li>Hades autocannon этой модели можно заменить на 1 baleflamer.</li> </ul>
+77b85f36|<p>Каждый раз, когда эта модель заканчивает обычное движение, можешь выбрать один вражеский отряд, над которым она прошла. До конца хода у моделей того отряда не может быть преимущества укрытия.</p>
+2e68bbd1|<ul> <li><strong>1 Chaos Rhino</strong></li> </ul> <p><strong>Модель вооружена:</strong> inferno combi-bolter; armoured tracks.</p>
+2aa65d6d|<ul> <li>Эту модель можно вооружить одним из: ◦ 1 дополнительный inferno combi-bolter ◦ 1 inferno combi-weapon</li> </ul>
+bef004a4|<ul> <li>Эту модель можно вооружить 1 havoc launcher или заменить 1 inferno combi-bolter на 1 havoc launcher.</li> </ul>
+76a785d2|<p>Вместимость этой модели — 12 моделей <strong>THOUSAND SONS INFANTRY</strong> (кроме моделей <strong>TERMINATOR</strong>).</p>
+a7e0f0db|<p>В твоей фазе стрельбы, после того как эта модель отстрелялась, выбери один вражеский отряд, в который попала хотя бы одна из этих атак. До конца фазы каждый раз, когда дружественная модель, высадившаяся из этого <strong>TRANSPORT</strong> в этом ходу, совершает психическую атаку по тому отряду, добавь 1 к броску на попадание и 1 к броску на ранение.</p>
+cf8437dc|<ul> <li><strong>1 Chaos Land Raider</strong></li> </ul> <p><strong>Модель вооружена:</strong> 2 soulshatter lascannons; twin inferno heavy bolter; armoured tracks.</p>
+7f44310f|<ul> <li>Эту модель можно вооружить 1 havoc launcher.</li> </ul>
+0be68f8c|<ul> <li>Эту модель можно вооружить одним из: ◦ 1 inferno combi-bolter ◦ 1 inferno combi-weapon</li> </ul>
+07cf00d4|<p>Вместимость этой модели — 14 моделей <strong>THOUSAND SONS INFANTRY</strong>. Каждая модель <strong>TERMINATOR</strong> занимает место 2 моделей.</p>
+48508b1e|<p>Каждый раз, когда отряд высаживается из этого <strong>TRANSPORT</strong> после того, как тот совершил обычное движение, отряд всё равно может объявить атаку (чардж) в этом ходу.</p>
+27d85925|<ul> <li><strong>1 Chaos Predator Annihilator</strong></li> </ul> <p><strong>Модель вооружена:</strong> Predator twin lascannon; armoured tracks.</p>
+444793dc|<ul> <li>Эту модель можно вооружить одним из: ◦ 2 lascannons ◦ 2 inferno heavy bolters</li> </ul>
+9595bdcf|<p>Каждый раз, когда эта модель совершает стрелковую атаку по отряду <strong>MONSTER</strong> или <strong>VEHICLE</strong>, в который в этой фазе попала хотя бы одна психическая атака модели <strong>THOUSAND SONS PSYKER</strong> твоей армии (включая Ритуал Doombolt), можно перебросить бросок на попадание и бросок урона.</p>
+4646d19a|<ul> <li><strong>1 Chaos Predator Destructor</strong></li> </ul> <p><strong>Модель вооружена:</strong> Predator autocannon; armoured tracks.</p>
+b6d468e9|<p>Каждый раз, когда эта модель совершает стрелковую атаку по отряду (кроме <strong>MONSTERS</strong> и <strong>VEHICLES</strong>), в который в этой фазе попала хотя бы одна психическая атака модели <strong>THOUSAND SONS PSYKER</strong> твоей армии (включая Ритуал Doombolt), улучши Силу и AP этой атаки на 1.</p>
+de385780|<ul> <li><strong>1 Chaos Vindicator</strong></li> </ul> <p><strong>Модель вооружена:</strong> demolisher cannon; armoured tracks.</p>
+e592def3|<p>Стреляя из demolisher cannon, эта модель может выбирать целью вражеские отряды в своей зоне ближнего боя (если с ними в зоне ближнего боя нет других дружественных отрядов). Кроме того, при стрелковых атаках эта модель не получает штрафа к попаданию за нахождение в зоне ближнего боя вражеских отрядов.</p>
+bae6320c|<ul> <li><strong>1 Defiler</strong></li> </ul> <p><strong>Модель вооружена:</strong> 1 Hades battle cannon; 2 excruciator cannons; 1 heavy missile launcher; 1 heavy baleflamer; 1 shearing claws</p>
+9168e1b0|<ul> <li>Hades battle cannon этой модели можно заменить на 1 ectoplasma destructor.</li> </ul>
+306f4663|<ul> <li>Heavy baleflamer этой модели можно заменить на одно из: ◦ 1 Hades lascannon ◦ 1 heavy reaper autocannon ◦ 1 electroscourge (у модели может быть не больше одного electroscourge)</li> </ul>
+1e60353f|<ul> <li>Heavy missile launcher этой модели можно заменить на одно из: ◦ 1 Hades lascannon ◦ 1 heavy reaper autocannon ◦ 1 electroscourge (у модели может быть не больше одного electroscourge)</li> </ul>
+b52c9520|<ul> <li>Excruciator cannons этой модели можно заменить на 2 pyraflux magma cutters.</li> </ul>
+1ee1f2ef|<p>Каждый раз, когда этот отряд — цель стратагемы Fire Overwatch, при её отыгрыше попадания засчитываются на немодифицированные 5+. Для атак по вражескому отряду в пределах 9" от одного или нескольких отрядов <strong>THOUSAND SONS PSYKER</strong> твоей армии — на немодифицированные 4+.</p>
+88171892|<p>Каждый раз, когда этот отряд совершает обычное движение, рывок или отступление, он может проходить сквозь модели (кроме <strong>TITANIC</strong>) и элементы ландшафта. При этом он может входить в зону ближнего боя вражеских моделей, но не может в ней закончить движение, а любые проверки отчаянного бегства проходит автоматически.</p>
+5dd9917e|<ul> <li><strong>1 Forgefiend</strong></li> </ul> <p><strong>Модель вооружена:</strong> 2 Hades autocannons; 1 Forgefiend jaws.</p>
+69fdf0ba|<ul> <li>2 Hades autocannons этой модели можно заменить на 2 ectoplasma cannons.</li> </ul>
+b91094c1|<ul> <li>Forgefiend jaws этой модели можно заменить на 1 ectoplasma cannon и 1 Forgefiend claws.</li> </ul>
+68d645c9|<p>В твоей фазе стрельбы, после того как эта модель отстрелялась, выбери один вражеский отряд, в который попала хотя бы одна из этих атак. До начала твоего следующего хода этот отряд «подавлен»: каждый раз, когда его модель атакует, вычти 1 из броска на попадание.</p>
+1d5d2306|<ul> <li><strong>1 Helbrute</strong></li> </ul> <p><strong>Модель вооружена:</strong> missile launcher; multi-melta; close combat weapon.</p>
+a5e55e7b|<ul> <li>Missile launcher этой модели можно заменить на одно из: ◦ 1 Helbrute fist ◦ 1 Helbrute hammer ◦ 1 power scourge</li> </ul>
+ca5c8237|<ul> <li>За каждый Helbrute fist модель может получить одно из: ◦ 1 inferno combi-bolter ◦ 1 heavy flamer</li> </ul>
+127a424f|<ul> <li>Multi-melta этой модели можно заменить на одно из: ◦ 1 Helbrute plasma cannon ◦ 1 twin autocannon ◦ 1 twin inferno heavy bolter ◦ 1 twin lascannon ◦ 1 Helbrute fist</li> </ul>
+2fb11153|<p>В твоей фазе стрельбы и в фазе боя, после того как эта модель отстрелялась или сразилась, выбери один вражеский отряд, в который попала хотя бы одна из этих атак. Он должен пройти проверку боевого шока (с −1, если он в пределах 9" от одного или нескольких отрядов <strong>THOUSAND SONS PSYKER</strong> твоей армии).</p>

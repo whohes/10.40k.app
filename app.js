@@ -27,7 +27,7 @@ const I = {
 /* ---------------- интерфейс RU/EN ---------------- */
 const UI = {
   ru: {
-    armies: 'Армии', units: 'Юниты', rules: 'Правила', newArmy: 'Новая армия', add: 'Добавить', create: 'Создать',
+    faction: 'Фракция', factionLocked: 'Сначала убери юниты, чтобы сменить фракцию', armies: 'Армии', units: 'Юниты', rules: 'Правила', newArmy: 'Новая армия', add: 'Добавить', create: 'Создать',
     name: 'Название', limit: 'Лимит очков', detachment: 'Детачмент', noArmies: 'Пока нет ни одной армии',
     noArmiesHint: 'Создай ростер, чтобы держать под рукой датащиты, стратагемы и детач.',
     pts: 'оч.', unitsCount: n => `${n} ${plural(n, 'юнит', 'юнита', 'юнитов')}`, empty: 'В армии пока пусто',
@@ -56,7 +56,7 @@ const UI = {
     },
   },
   en: {
-    armies: 'Armies', units: 'Units', rules: 'Rules', newArmy: 'New army', add: 'Add', create: 'Create',
+    faction: 'Faction', factionLocked: 'Remove units first to change the faction', armies: 'Armies', units: 'Units', rules: 'Rules', newArmy: 'New army', add: 'Add', create: 'Create',
     name: 'Name', limit: 'Points limit', detachment: 'Detachment', noArmies: 'No armies yet',
     noArmiesHint: 'Create a roster to keep datasheets, stratagems and your detachment at hand.',
     pts: 'pts', unitsCount: n => `${n} unit${n === 1 ? '' : 's'}`, empty: 'This army is empty',
@@ -103,21 +103,28 @@ const TYPE_RU = { 'Battle Tactic': 'Боевая тактика', 'Strategic Plo
 const PH_KEYS = ['command', 'movement', 'shooting', 'charge', 'fight'];
 
 /* ---------------- состояние ---------------- */
-let DATA = null;
+let DATA = null;            // текущая фракция
+const DB = {};              // все фракции по id
+let FACTIONS = [];          // [{id, name, ru}]
+const TEXTS = {}, GLOSS = {};
+const factionName = id => { const f = FACTIONS.find(x => x.id === id); return f ? (lang === 'ru' ? f.ru : f.name) : id; };
+function useFaction(id) { DATA = DB[id] || DB[FACTIONS[0].id]; return DATA; }
+/** находит фракцию, где есть юнит/детач с таким id */
+function findFaction(kind, id) { return FACTIONS.map(f => DB[f.id]).find(d => d[kind].some(x => x.id === id)); }
 const store = {
   get(k, d) { try { const v = localStorage.getItem('10k.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem('10k.' + k, JSON.stringify(v)); } catch { toast('Не удалось сохранить'); } },
 };
 let lang = store.get('lang', 'ru');
 let armies = store.get('armies', []);
-const ui = { stratPhase: 'all', armyTab: {}, unitSearch: '', pickSearch: '' };
+const ui = { stratPhase: 'all', armyTab: {}, unitSearch: '', pickSearch: '', faction: store.get('faction', 'necrons') };
 const L = () => UI[lang];
 const saveArmies = () => store.set('armies', armies);
 
 const unitById = id => DATA.units.find(u => u.id === id);
 const detById = id => DATA.detachments.find(d => d.id === id);
 const armyById = id => armies.find(a => a.id === id);
-const t = id => { if (!id) return ''; const x = DATA.texts[id]; if (!x) return ''; return (lang === 'ru' && x.ru) || x.en; };
+const t = id => { if (!id) return ''; const x = TEXTS[id]; if (!x) return ''; return (lang === 'ru' && x.ru) || x.en; };
 const catName = c => lang === 'ru' ? (CAT_RU[c] || c) : c;
 const secName = s => lang === 'ru' ? (SEC_RU[s] || s) : s;
 const partName = p => lang === 'ru' ? (PART_RU[p] || p) : p;
@@ -172,7 +179,7 @@ function kwKey(name) {
   let k = name.toLowerCase().trim().replace(/^\[|\]$/g, '');
   if (k.startsWith('anti-')) return 'anti';
   k = k.replace(/\s+(\d+\+?|d\d+(\+\d+)?|\d+")$/, '');
-  return DATA.glossary[k] ? k : null;
+  return GLOSS[k] ? k : null;
 }
 let KW_RE = null;
 function kwRegex() {
@@ -234,8 +241,8 @@ function confirmSheet(msg, okLabel, onOk) {
   $('#cYes').onclick = () => { closeSheet(true); onOk(); };
 }
 function showKeyword(key, label) {
-  const g = DATA.glossary[key]; if (!g) return;
-  const x = DATA.texts[g.t];
+  const g = GLOSS[key]; if (!g) return;
+  const x = TEXTS[g.t];
   openSheet(label || g.name, t(g.t), lang === 'ru' && x && !x.ru ? L().untranslated : (label && label !== g.name ? g.name : ''), key);
 }
 document.addEventListener('click', e => {
@@ -264,17 +271,18 @@ function go(hash) { location.hash = hash; }
 
 /* ---------------- экраны ---------------- */
 function viewArmies() {
-  setBar({ title: '10k.app · Necrons', actions: `<button class="icon-btn" onclick="go('#/settings')" aria-label="${L().settings}">${I.gear}</button>` });
+  setBar({ title: '10k.app', actions: `<button class="icon-btn" onclick="go('#/settings')" aria-label="${L().settings}">${I.gear}</button>` });
   setNav('armies');
   const v = $('#view');
   if (!armies.length) {
     v.innerHTML = `<div class="empty">${I.ankh}<h3>${L().noArmies}</h3><p>${L().noArmiesHint}</p></div>`;
   } else {
     v.innerHTML = `<div class="unit-list">${armies.map(a => {
+      useFaction(a.faction);
       const p = armyPts(a), d = detById(a.det), bad = validate(a).some(x => x[0] === 'error');
       return `<a class="unit-card role-line" href="#/army/${a.id}">
         <div class="grow"><div class="unit-card__name">${esc(a.name)}</div>
-        <div class="unit-card__sub"><span>${d ? esc(d.name) : '—'}</span><span>${L().unitsCount(a.units.length)}</span>${bad ? `<span class="badge badge--danger">!</span>` : ''}</div></div>
+        <div class="unit-card__sub"><span>${esc(factionName(a.faction))}</span><span>${d ? esc(d.name) : '—'}</span><span>${L().unitsCount(a.units.length)}</span>${bad ? `<span class="badge badge--danger">!</span>` : ''}</div></div>
         <div class="unit-card__pts">${p}<small>/ ${a.limit}</small></div></a>`;
     }).join('')}</div>`;
   }
@@ -284,25 +292,35 @@ function viewArmies() {
 function armyForm(a) {
   const limits = [500, 1000, 2000, 3000];
   return `
-    <div class="field"><label>${L().name}</label><input class="input" id="fName" maxlength="60" value="${esc(a.name)}" placeholder="${lang === 'ru' ? 'Например: Династия Сотек' : 'e.g. Szarekhan Dynasty'}"></div>
+    <div class="field"><label>${L().faction}</label><div class="opts" id="fFaction">
+      ${FACTIONS.map(f => `<button class="opt ${a.faction === f.id ? 'on' : ''}" data-v="${f.id}">${esc(lang === 'ru' ? f.ru : f.name)}</button>`).join('')}
+    </div></div>
+    <div class="field"><label>${L().name}</label><input class="input" id="fName" maxlength="60" value="${esc(a.name)}" placeholder="${lang === 'ru' ? 'Например: Лист на 500' : 'e.g. 500 pts list'}"></div>
     <div class="field"><label>${L().limit}</label><div class="opts" id="fLimit">
       ${limits.map(l => `<button class="opt ${a.limit === l ? 'on' : ''}" data-v="${l}">${l}</button>`).join('')}
       <input class="input" id="fLimitCustom" inputmode="numeric" style="width:110px;min-height:42px" placeholder="${L().other}" value="${limits.includes(a.limit) ? '' : a.limit}">
     </div></div>
     <div class="field"><label>${L().detachment}</label><div class="opts" id="fDet">
-      ${DATA.detachments.map(d => `<button class="opt ${a.det === d.id ? 'on' : ''}" data-v="${d.id}">${esc(d.name)}</button>`).join('')}
+      ${detOpts(a)}
     </div></div>`;
 }
-function bindArmyForm(a) {
+const detOpts = a => DB[a.faction].detachments.map(d => `<button class="opt ${a.det === d.id ? 'on' : ''}" data-v="${d.id}">${esc(d.name)}</button>`).join('');
+function bindArmyForm(a, locked) {
+  const bindDet = () => $$('#fDet .opt').forEach(b => b.onclick = () => { a.det = b.dataset.v; $$('#fDet .opt').forEach(x => x.classList.toggle('on', x === b)); });
+  $$('#fFaction .opt').forEach(b => b.onclick = () => {
+    if (locked && b.dataset.v !== a.faction) return toast(L().factionLocked);
+    a.faction = b.dataset.v; a.det = null; $$('#fFaction .opt').forEach(x => x.classList.toggle('on', x === b));
+    $('#fDet').innerHTML = detOpts(a); bindDet();
+  });
   $$('#fLimit .opt').forEach(b => b.onclick = () => { a.limit = +b.dataset.v; $('#fLimitCustom').value = ''; $$('#fLimit .opt').forEach(x => x.classList.toggle('on', x === b)); });
   $('#fLimitCustom').oninput = e => { const n = parseInt(e.target.value, 10); if (n > 0) { a.limit = n; $$('#fLimit .opt').forEach(x => x.classList.remove('on')); } };
-  $$('#fDet .opt').forEach(b => b.onclick = () => { a.det = b.dataset.v; $$('#fDet .opt').forEach(x => x.classList.toggle('on', x === b)); });
+  bindDet();
   $('#fName').oninput = e => { a.name = e.target.value; };
 }
 
 function viewNew() {
   setBar({ title: L().newArmy, back: '#/' }); setNav('armies');
-  const draft = { id: uid(), name: '', limit: 500, det: null, units: [] };
+  const draft = { id: uid(), faction: ui.faction, name: '', limit: 500, det: null, units: [] };
   $('#view').innerHTML = `<div class="card stack">${armyForm(draft)}</div>
     <div style="margin-top:16px"><button class="btn btn--primary btn--block" id="createBtn">${L().create}</button></div>`;
   bindArmyForm(draft);
@@ -326,7 +344,7 @@ function viewArmyEdit(a) {
       <button class="btn btn--block" id="dupBtn">${L().duplicate}</button>
       <button class="btn btn--block btn--danger" id="delBtn">${L().del}</button>
     </div>`;
-  bindArmyForm(draft);
+  bindArmyForm(draft, a.units.length > 0);
   $('#saveBtn').onclick = () => { Object.assign(a, draft, { name: draft.name.trim() || a.name, updated: Date.now() }); saveArmies(); history.back(); };
   $('#copyText').onclick = () => copy(rosterText(a));
   $('#copyJSON').onclick = () => copy(JSON.stringify({ app: '10k.app', v: 1, armies: [a] }));
@@ -336,7 +354,7 @@ function viewArmyEdit(a) {
 }
 function rosterText(a) {
   const d = detById(a.det);
-  const lines = [`${a.name} — ${armyPts(a)}/${a.limit} ${L().pts}`, `Necrons · ${d ? d.name : '—'}`, ''];
+  const lines = [`${a.name} — ${armyPts(a)}/${a.limit} ${L().pts}`, `${factionName(a.faction)} · ${d ? d.name : '—'}`, ''];
   groupByCat(a.units.map(e => ({ e, u: unitById(e.id) })).filter(x => x.u)).forEach(([cat, list]) => {
     lines.push(catName(cat).toUpperCase());
     list.forEach(({ e, u }) => {
@@ -463,10 +481,15 @@ function viewArmyUnit(a, e) {
   renderDatasheet($('#ds'), u, { entry: e, army: a });
 }
 
+function factionSeg(onChange) {
+  if (FACTIONS.length < 2) return '';
+  setTimeout(() => $$('#facSeg button').forEach(b => b.onclick = () => { ui.faction = b.dataset.f; store.set('faction', ui.faction); onChange(); }));
+  return `<div class="seg" id="facSeg" style="margin-top:0">${FACTIONS.map(f => `<button data-f="${f.id}" class="${ui.faction === f.id ? 'on' : ''}">${esc(lang === 'ru' ? f.ru : f.name)}</button>`).join('')}</div>`;
+}
 function viewUnits() {
   setBar({ title: L().units }); setNav('units');
   const v = $('#view');
-  v.innerHTML = `<div class="search">${I.search}<input id="q" type="search" placeholder="${L().search}" value="${esc(ui.unitSearch)}" autocomplete="off"></div><div id="list"></div>`;
+  v.innerHTML = `${factionSeg(() => render(true))}<div class="search">${I.search}<input id="q" type="search" placeholder="${L().search}" value="${esc(ui.unitSearch)}" autocomplete="off"></div><div id="list"></div>`;
   const draw = () => {
     const q = ui.unitSearch.trim().toLowerCase();
     const list = DATA.units.filter(u => !q || u.name.toLowerCase().includes(q) || u.keywords.some(k => k.toLowerCase().includes(q))
@@ -588,7 +611,7 @@ function viewRules() {
   setBar({ title: L().rules }); setNav('rules');
   const v = $('#view');
   const gl = Object.entries(DATA.glossary).sort((a, b) => a[1].name.localeCompare(b[1].name));
-  v.innerHTML = `
+  v.innerHTML = `${factionSeg(() => render(true))}
     <div class="section-title">${L().armyRule}</div>
     ${DATA.army.map(r => `<div class="ability"><div class="ability__name">${esc(r.name)}</div><div class="ability__body">${t(r.t)}</div></div>`).join('')}
     <div class="section-title">${L().detachments}</div>
@@ -628,7 +651,7 @@ function viewSettings() {
     try {
       const j = JSON.parse(txt); const list = Array.isArray(j) ? j : j.armies || (j.units ? [j] : []);
       let n = 0;
-      list.forEach(a => { if (!a || !Array.isArray(a.units)) return; a.id = uid(); a.limit = +a.limit || 2000; a.units = a.units.filter(e => unitById(e.id)).map(e => ({ uid: uid(), id: e.id, size: +e.size || 0, enh: e.enh || null, warlord: !!e.warlord })); armies.unshift(a); n++; });
+      list.forEach(a => { if (!a || !Array.isArray(a.units)) return; a.id = uid(); a.faction = DB[a.faction] ? a.faction : 'necrons'; useFaction(a.faction); a.limit = +a.limit || 2000; a.units = a.units.filter(e => unitById(e.id)).map(e => ({ uid: uid(), id: e.id, size: +e.size || 0, enh: e.enh || null, warlord: !!e.warlord })); armies.unshift(a); n++; });
       if (!n) throw 0; saveArmies(); toast(L().imported(n)); $('#impText').value = '';
     } catch { toast(L().importBad); }
   };
@@ -650,15 +673,16 @@ function render(keepScroll) {
     else if (p[0] === 'settings') viewSettings();
     else if (p[0] === 'army') {
       const a = armyById(p[1]); if (!a) return location.replace('#/');
+      useFaction(a.faction);
       if (p[2] === 'edit') viewArmyEdit(a);
       else if (p[2] === 'add') viewPicker(a);
       else if (p[2] === 'u') { const e = a.units.find(x => x.uid === p[3]); if (!e) return location.replace('#/army/' + a.id); viewArmyUnit(a, e); }
       else viewArmy(a);
     }
-    else if (p[0] === 'units') viewUnits();
-    else if (p[0] === 'unit') { const u = unitById(p[1]); if (!u) return location.replace('#/units'); viewUnit(u); }
-    else if (p[0] === 'rules') viewRules();
-    else if (p[0] === 'det') { const d = detById(p[1]); if (!d) return location.replace('#/rules'); viewDet(d); }
+    else if (p[0] === 'units') { useFaction(ui.faction); viewUnits(); }
+    else if (p[0] === 'unit') { DATA = findFaction('units', p[1]) || DATA; const u = unitById(p[1]); if (!u) return location.replace('#/units'); viewUnit(u); }
+    else if (p[0] === 'rules') { useFaction(ui.faction); viewRules(); }
+    else if (p[0] === 'det') { DATA = findFaction('detachments', p[1]) || DATA; const d = detById(p[1]); if (!d) return location.replace('#/rules'); viewDet(d); }
     else if (p[0] === 'core') viewCore();
     else location.replace('#/');
   } catch (err) { console.error(err); $('#view').innerHTML = `<div class="empty">Ошибка: ${esc(err.message)}</div>`; }
@@ -667,13 +691,19 @@ function render(keepScroll) {
 window.addEventListener('hashchange', () => { if (!history.state || !history.state.inApp) history.replaceState({ inApp: true }, ''); render(); });
 window.addEventListener('popstate', () => { if ($('.sheet') && !(history.state && history.state.sheet)) closeSheet(true); });
 
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.1.0';
 async function boot() {
   document.documentElement.lang = lang;
   history.replaceState({ inApp: false }, '');
   try {
-    const r = await fetch('data/necrons.json');
-    DATA = await r.json();
+    FACTIONS = (await (await fetch('data/index.json')).json()).factions;
+    await Promise.all(FACTIONS.map(async f => { DB[f.id] = await (await fetch(f.file)).json(); }));
+    FACTIONS.forEach(f => { Object.assign(TEXTS, DB[f.id].texts); Object.assign(GLOSS, DB[f.id].glossary); });
+    if (!DB[ui.faction]) ui.faction = FACTIONS[0].id;
+    useFaction(ui.faction);
+    let migrated = false;
+    armies.forEach(a => { if (!a.faction) { a.faction = 'necrons'; migrated = true; } });
+    if (migrated) saveArmies();
   } catch (e) {
     $('#view').innerHTML = `<div class="empty">Не удалось загрузить данные. Проверь подключение и обнови страницу.</div>`; return;
   }

@@ -7,11 +7,11 @@
 ```
 index.html, styles.css, app.js   приложение
 sw.js, manifest.webmanifest      офлайн-режим и установка (PWA)
-data/necrons.json                данные (собирается скриптом, руками не править)
+data/index.json, data/<фракция>.json  данные (собираются скриптом, руками не править)
 docs/                            скриншоты для README
 tools/
   scrape.js        выгрузка с 10.40k.app (запускается в консоли браузера)
-  raw.json         сырая выгрузка
+  raw/<фракция>.json  сырые выгрузки (necrons, thousand-sons)
   kw_site.json     расшифровки ключевых слов с сайта
   core_extra.json  стратагемы Core и недостающие ключевые слова
   ru/*.txt         переводы: одна строка = id|русский текст
@@ -31,8 +31,8 @@ python3 -m http.server 8000
 
 ## Обновление данных
 
-1. Открой https://10.40k.app/factions/necrons в браузере, в консоли DevTools выполни `tools/scrape.js` — скачается `raw.json`.
-2. Положи его в `tools/raw.json` и запусти `python3 tools/build.py`.
+1. Открой страницу фракции на 10.40k.app (например, https://10.40k.app/factions/necrons), в консоли DevTools выполни `tools/scrape.js` — скачается `raw.json`.
+2. Положи его в `tools/raw/<фракция>.json` и запусти `python3 tools/build.py`.
 3. Скрипт выведет, сколько текстов осталось без перевода, и запишет их в `tools/untranslated.json`. Без перевода текст показывается на английском. Переводы дописываются в `tools/ru/*.txt` в формате `id|текст`.
 4. Увеличь `VERSION` в `sw.js`, иначе установленные приложения не подтянут обновление.
 
@@ -44,4 +44,7 @@ python3 -m http.server 8000
 
 ## Новая фракция
 
-Сейчас приложение знает только про некронов (`data/necrons.json`). Чтобы добавить фракцию, нужно выгрузить её через `scrape.js` и научить `build.py` и `app.js` работать с несколькими файлами данных.
+1. Выгрузи её через `scrape.js` и положи в `tools/raw/<slug>.json` (slug — как в адресе на 40k.app).
+2. Добавь её в словарь `FACTIONS` в `tools/build.py` (английское и русское название).
+3. Запусти `python3 tools/build.py`, переведи тексты из `tools/untranslated.json`.
+4. Добавь `data/<slug>.json` в список файлов в `sw.js` и подними `VERSION`.
